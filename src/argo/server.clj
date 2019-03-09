@@ -6,7 +6,8 @@
   (:import [org.apache.logging.log4j LogManager Logger]))
 
 (defn app [req]
-  (log/info (json/write-str (:headers req) :key-fn name))
+  ;; TODO Want this to be JSON in logs, not String.
+  (log/info (json/write-str (select-keys req [:headers])))
   (with-open [reader (clojure.java.io/reader (:body req))]
     (log/info (json/write-str (clojure.string/join (line-seq reader)))))
   {:status 200

@@ -1,4 +1,13 @@
 {:deps
  {org.clojure/clojure {:mvn/version "1.10.0"}
   org.clojure/data.json {:mvn/version "0.2.6"}
-  http-kit {:mvn/version "2.3.0"}}}
+  http-kit {:mvn/version "2.3.0"}
+
+  ;; Logging
+  org.clojure/tools.logging {:mvn/version "0.4.1"}
+  org.apache.logging.log4j/log4j-api {:mvn/version "2.11.2"}
+  org.apache.logging.log4j/log4j-core {:mvn/version "2.11.2"}
+  com.fasterxml.jackson.core/jackson-core {:mvn/version "2.7.4"}
+  com.fasterxml.jackson.core/jackson-databind {:mvn/version "2.7.4"}}
+
+ :paths ["src" "resources"]}

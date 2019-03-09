@@ -1,13 +1,14 @@
 (ns argo.server
   "An HTTP Kit based server."
   (:require [clojure.data.json :as json]
-            [org.httpkit.server :as server]))
+            [clojure.tools.logging :as log]
+            [org.httpkit.server :as server])
+  (:import [org.apache.logging.log4j LogManager Logger]))
 
 (defn app [req]
-  #_(println (:headers req))
+  (log/info (json/write-str (:headers req) :key-fn name))
   (with-open [reader (clojure.java.io/reader (:body req))]
-    (spit (str (java.time.LocalDateTime/now) ".json")
-          (clojure.string/join "\n" (line-seq reader))))
+    (log/info (json/write-str (clojure.string/join (line-seq reader)))))
   {:status 200
    :headers {"Content-Type" "application/json; charset=utf-8"}
    :body (json/write-str
@@ -25,4 +26,5 @@
     (reset! server nil)))
 
 (defn -main [& args]
-  (reset! server (server/run-server #'app {:port 8080})))
+  (reset! server (server/run-server #'app {:port 8080}))
+  (log/info "Server ready!"))

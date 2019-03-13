@@ -9,20 +9,16 @@
 
 (defn app [req]
   ;; TODO Want this to be JSON in logs, not String.
-  (log/info (select-keys req [:headers]))
+  (log/info (json/generate-string (select-keys req [:headers])))
   ; (.info logger (select-keys req [:headers]))
   (with-open [reader (clojure.java.io/reader (:body req))]
     (let [body (json/parse-string (clojure.string/join (line-seq reader)) true)]
       ; (.info logger body)
-      (log/info body)
-      )
-    )
-  {:status 200
-   :headers {"Content-Type" "application/json; charset=utf-8"}
-   :body (json/generate-string
-           {:message "hello"
-            :ref {:first "Michael"
-                  :last "Daines"}})})
+      (log/info (json/generate-string body))
+      {:status 200
+       :headers {"Content-Type" "application/json; charset=utf-8"}
+       :body (json/generate-string
+               (assoc body :message "hello"))})))
 
 (defonce server (atom nil))
 

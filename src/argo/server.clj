@@ -1,18 +1,25 @@
 (ns argo.server
   "An HTTP Kit based server."
-  (:require [clojure.data.json :as json]
+  (:require [cheshire.core :as json]
             [clojure.tools.logging :as log]
             [org.httpkit.server :as server])
   (:import [org.apache.logging.log4j LogManager Logger]))
 
+; (def logger (LogManager/getLogger (str *ns*)))
+
 (defn app [req]
   ;; TODO Want this to be JSON in logs, not String.
-  (log/info (json/write-str (select-keys req [:headers])))
+  (log/info (select-keys req [:headers]))
+  ; (.info logger (select-keys req [:headers]))
   (with-open [reader (clojure.java.io/reader (:body req))]
-    (log/info (json/write-str (clojure.string/join (line-seq reader)))))
+    (let [body (json/parse-string (clojure.string/join (line-seq reader)) true)]
+      ; (.info logger body)
+      (log/info body)
+      )
+    )
   {:status 200
    :headers {"Content-Type" "application/json; charset=utf-8"}
-   :body (json/write-str
+   :body (json/generate-string
            {:message "hello"
             :ref {:first "Michael"
                   :last "Daines"}})})
@@ -28,4 +35,6 @@
 
 (defn -main [& args]
   (reset! server (server/run-server #'app {:port 8080}))
-  (log/info "Server ready!"))
+  ; (.info logger "Server ready.")
+  (log/info "Server ready.")
+  (println "Server ready!"))

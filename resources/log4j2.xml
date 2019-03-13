@@ -14,7 +14,8 @@
         compact="true"
         complete="false"
         charset="UTF-8"
-        eventEol="true"/>
+        eventEol="true"
+        objectMessageAsJsonObject="true"/>
     </File>
     <Async name="AsyncAppender" bufferSize="2">
       <AppenderRef ref="JSONLogFileAppernder"/>

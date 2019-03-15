@@ -1,14 +1,14 @@
 <?xml version="1.0" ?>
 <Configuration status="INFO">
-	<Appenders>
-		<Console name="Console" target="SYSTEM_OUT">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
       <JSONLayout
         compact="false"
         complete="false"
         charset="UTF-8"
         eventEol="true"
         objectMessageAsJsonObject="true"/>
-		</Console>
+    </Console>
     <File name="JSONLogFileAppernder" fileName="tmp/log.json">
       <JSONLayout
         compact="true"
@@ -20,14 +20,14 @@
     <Async name="AsyncAppender" bufferSize="2">
       <AppenderRef ref="JSONLogFileAppernder"/>
     </Async>
-	</Appenders>
-	<Loggers>
+  </Appenders>
+  <Loggers>
     <Logger name="AsyncJsonFileAppender" level="INFO" additivity="false">
       <AppenderRef ref="AsyncAppender"/>
     </Logger>
-		<Root level="INFO">
+    <Root level="INFO">
       <AppenderRef ref="AsyncAppender"/>
-			<!-- <AppenderRef ref="Console"/> -->
-		</Root>
-	</Loggers>
+      <!-- <AppenderRef ref="Console"/> -->
+    </Root>
+  </Loggers>
 </Configuration>
